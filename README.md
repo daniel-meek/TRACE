@@ -33,7 +33,7 @@ Since `TRACE` is built entirely with standard HTML5, CSS3, and JavaScript (Canva
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/daniel-meek/network-explorer.git](https://github.com/daniel-meek/network-explorer.git)
+   git clone https://github.com/daniel-meek/network-explorer.git
    cd network-explorer
    ```
 
