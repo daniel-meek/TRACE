@@ -104,14 +104,14 @@ class Game {
         this.calculateVision();
     }
 
-    startNewLevel() {
+    startNewSubnet() {
         this.player.baseStats.hp = this.player.getStats().maxHp; 
         this.subnetDepth++; 
         this.traceLevel = 0;
         this.hunterWave = 1;
         this.huntersActive = 0;
         this.currentNodeCount += 5; 
-        let isBoss = this.subnetDepth >= (this.networkConfig.maxSubnets || 3);
+        let isBoss = this.subnetDepth >= (this.networkConfig.subnetCount || 1);
         this.network = new Network(this.networkConfig, isBoss);
         this.player.reset(this.network.nodes[0]); 
         this.player.currentNode.visited = true; 

@@ -156,6 +156,12 @@ class Node {
     }
 }
 
+class Subnet {
+    constructor(config) {
+        
+    }
+}
+
 class Network {
     constructor(config, isBossSubnet) {
         this.nodes = []; 
@@ -285,6 +291,7 @@ class Network {
         });
     }
     
+
     draw(ctx, playerNode) {
         ctx.lineWidth = 2; ctx.setLineDash([]); 
         this.nodes.forEach(node => {

@@ -1,6 +1,7 @@
 // data.js
 
 const CONFIG = {
+    DEV_MODE: true, // true to enable all dev featres
     baseFontSize: 16, 
     mapWidth: 3000,
     mapHeight: 3000,
@@ -11,7 +12,7 @@ const CONFIG = {
     colors: {
         bg: '#050a05',
         uiBg: '#0a140a',
-        node: '#00ff41',
+        node: '#00ff30',
         connection: 'rgba(0, 255, 65, 0.2)',
         player: '#ffffff',
         database: '#f1c40f',
@@ -90,7 +91,9 @@ const LOADOUT_LIBRARY = {
         startingItems: [],
         startingCredits: 20
     },
+
     'dev_loadout': {
+        devTool: true,
         name: 'DEBUG_PROTOCOL',
         desc: 'Elevated system privileges. All modules active.',
         stats: { hp: 50, maxHp: 50, atk: 0, buf: 0, spd: 2 },
@@ -208,7 +211,7 @@ const NETWORK_LIBRARY = {
         desc: 'Low security, high adware traffic.',
         color: '#1abc9c',
         baseNodeCount: 25,
-        subnetCount: 5,
+        subnetCount: 1,
         connectionDistance: 300,
         minNodeDistance: 80,
         maxNodeDistance: 220,

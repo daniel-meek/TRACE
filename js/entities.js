@@ -161,6 +161,8 @@ class Player {
     constructor(startNode, loadoutId = 'default') {
         const loadout = LOADOUT_LIBRARY[loadoutId] || LOADOUT_LIBRARY['default'];
         
+        this.devTool = loadout.devTool || false
+
         this.credits = loadout.startingCredits || 0;
         this.maxSlots = loadout.maxSlots || 2; 
         this.visionRange = loadout.visionRange || 1; 
