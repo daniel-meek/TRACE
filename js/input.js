@@ -10,6 +10,8 @@ class InputManager {
         this.lastTouchY = 0;
         this.pointerDownState = null;
         this.initListeners();
+
+        this.audioManager = new AudioManager();
     }
     
     getPinchDistance(e) { 
@@ -256,6 +258,7 @@ class InputManager {
             return;
         }
         
+        // Subnet gateway promt
         if (this.game.state === 'EXPLORING' && this.game.turnState === 'gateway_prompt') {
             const pW = CONFIG.ui.panels.promptW; const pH = CONFIG.ui.panels.promptH;
             const layout = this.game.uiManager.getTerminalLayout(pW, pH);
@@ -274,7 +277,7 @@ class InputManager {
                 if (this.game.subnetDepth >= (this.game.networkConfig.maxSubnets || 3)) {
                     this.game.turnState = 'network_select';
                 } else {
-                    this.game.startNewLevel();
+                    this.game.startNewSubnet();
                 }
             }
             return;
@@ -380,6 +383,8 @@ class InputManager {
             this.game.network.nodes.forEach(node => {
                 if (Math.hypot(node.x - worldPos.x, node.y - worldPos.y) < CONFIG.nodeRadius * 2) {
                     if (this.game.player.currentNode.connections.includes(node)) {
+                        this.audioManager.playCustomNote(300, 2, 'sawtooth', 0.001);    // Player node
+
                         this.game.player.move(node); 
                         validMoveMade = true;
                     }

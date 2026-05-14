@@ -142,7 +142,7 @@ class UIManager {
         ctx.textAlign = 'right';
         let traceColor = CONFIG.colors.node; 
         let symbol = '+';
-        if (this.game.traceLevel >= 100) { traceColor = '#ff00ff'; symbol = '!'; } 
+        if (this.game.traceLevel >= 100) { traceColor = CONFIG.colors.hunter; symbol = '!'; } 
         else if (this.game.traceLevel >= 90) { traceColor = CONFIG.colors.enemy; symbol = '!'; }
         else if (this.game.traceLevel >= 50) { traceColor = CONFIG.colors.database; symbol = '?'; }
 
