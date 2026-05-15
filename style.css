@@ -14,5 +14,5 @@ canvas {
     display: block;
     border: 1px solid #00ff41;
     box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-    touch-action: none; /* <-- ADD THIS: Disables browser touch gestures */
+    touch-action: none; /* Disables browser touch gestures */
 }

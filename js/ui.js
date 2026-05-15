@@ -23,7 +23,8 @@ class UIManager {
         };
     }
 
-    drawTerminalWindow(ctx, title, w, h, titleColor = CONFIG.colors.node, sidebarW = 0, showExit = true) {
+    // Terminal Window
+    drawTerminalWindow(ctx, title, w, h, titleColor = CONFIG.colors.brightGreen, sidebarW = 0, showMainMenu = true) {
         const layout = this.getTerminalLayout(w, h, sidebarW);
         ctx.fillStyle = CONFIG.colors.overlay; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = CONFIG.colors.bg; ctx.fillRect(layout.x, layout.y, layout.w, layout.h);
@@ -45,7 +46,7 @@ class UIManager {
         }
 
         // Exit button
-        if (showExit) {
+        if (showMainMenu) {
             const eRect = layout.exitRect;
             ctx.fillStyle = '#1a1111'; ctx.fillRect(eRect.x, eRect.y, eRect.w, eRect.h);
             ctx.strokeStyle = CONFIG.colors.enemy; ctx.strokeRect(eRect.x, eRect.y, eRect.w, eRect.h);
@@ -57,11 +58,12 @@ class UIManager {
         return layout;
     }
 
+    // Top Bar
     drawTopBar(ctx, panelW) {
         const mapW = canvas.width - panelW;
         ctx.fillStyle = CONFIG.colors.uiBg;
         ctx.fillRect(panelW, 0, mapW, CONFIG.ui.topBarHeight);
-        ctx.strokeStyle = CONFIG.colors.node;
+        ctx.strokeStyle = CONFIG.colors.brightGreen;
         ctx.beginPath(); ctx.moveTo(panelW, CONFIG.ui.topBarHeight); ctx.lineTo(canvas.width, CONFIG.ui.topBarHeight); ctx.stroke();
 
         ctx.fillStyle = CONFIG.colors.textMain;
@@ -70,7 +72,9 @@ class UIManager {
         
         let netName = NETWORK_LIBRARY[this.game.currentNetworkKey] ? NETWORK_LIBRARY[this.game.currentNetworkKey].name : "Network";
         ctx.textAlign = 'left';
-        ctx.fillText(`${netName} - SUBNET ${this.game.subnetDepth}`, panelW + 15, 30);
+        ctx.fillText(`NETWORK: ${netName} - SUBNET ${this.game.subnetDepth}`, panelW + 15, 15);
+        ctx.fillText(`NETWORK: ${this.game.networkDepth}`, panelW + 15, 45);
+
 
         let nodeType = this.game.player.currentNode.type.toUpperCase().replace(/_/g, ' ');
         ctx.textAlign = 'center';
@@ -85,8 +89,8 @@ class UIManager {
             if (this.game.player.currentNode.type === 'database') {
                 const btnX = midX - btnW_top / 2;
                 ctx.fillStyle = CONFIG.colors.btnBg; ctx.fillRect(btnX, yPos, btnW_top, btnH_top);
-                ctx.strokeStyle = CONFIG.colors.database; ctx.strokeRect(btnX, yPos, btnW_top, btnH_top);
-                ctx.fillStyle = CONFIG.colors.database; ctx.textAlign = 'center';
+                ctx.strokeStyle = CONFIG.colors.yellow; ctx.strokeRect(btnX, yPos, btnW_top, btnH_top);
+                ctx.fillStyle = CONFIG.colors.yellow; ctx.textAlign = 'center';
                 ctx.fillText('EXPLORE DATABASE', midX, 39);
             } else if (this.game.player.currentNode.type === 'dark_net_access' && !this.game.player.currentNode.collected) {
                 let node = this.game.player.currentNode;
@@ -140,11 +144,11 @@ class UIManager {
         }
 
         ctx.textAlign = 'right';
-        let traceColor = CONFIG.colors.node; 
+        let traceColor = CONFIG.colors.brightGreen; 
         let symbol = '+';
         if (this.game.traceLevel >= 100) { traceColor = CONFIG.colors.hunter; symbol = '!'; } 
         else if (this.game.traceLevel >= 90) { traceColor = CONFIG.colors.enemy; symbol = '!'; }
-        else if (this.game.traceLevel >= 50) { traceColor = CONFIG.colors.database; symbol = '?'; }
+        else if (this.game.traceLevel >= 50) { traceColor = CONFIG.colors.yellow; symbol = '?'; }
 
         let barStr = "";
         for (let i = 0; i < 20; i++) {
@@ -158,23 +162,27 @@ class UIManager {
         ctx.textAlign = 'left';
     }
 
+    // Left Bar
     drawStatusPanel(ctx, width) {
         ctx.fillStyle = CONFIG.colors.uiBg; ctx.fillRect(0, 0, width, canvas.height);
-        ctx.beginPath(); ctx.moveTo(width, 0); ctx.lineTo(width, canvas.height); ctx.strokeStyle = CONFIG.colors.node; ctx.stroke();
+
+        ctx.beginPath(); ctx.moveTo(width, 0); ctx.lineTo(width, canvas.height); ctx.strokeStyle = CONFIG.colors.brightGreen; ctx.stroke();
         
         const pStats = this.game.player.getStats();
         ctx.fillStyle = CONFIG.colors.textMain; ctx.font = FONT(-2);
-        ctx.fillText(`CREDITS: ${this.game.player.credits}`, 10, 30);
-        ctx.fillText(`NETWORK: ${this.game.networkDepth}`, 10, 50);
 
-        ctx.font = FONT(0, "bold"); ctx.fillText("-- STATS --", 10, 90); ctx.font = FONT(-2);
-        ctx.fillText(`INT: ${pStats.hp}/${pStats.maxHp}`, 10, 120); 
-        ctx.fillText(`ATK: ${pStats.atk}`, 10, 140);
-        ctx.fillText(`BUF: ${pStats.buf}`, 10, 160); 
-        ctx.fillText(`SPD: ${pStats.spd}`, 10, 180);
+        ctx.font = FONT(0, "bold"); ctx.fillText("-- PARAMETERS --", 10, 20); ctx.font = FONT(-2);
 
-        ctx.font = FONT(0, "bold"); ctx.fillText("-- WEAPON --", 10, 230); ctx.font = FONT(-2);
-        ctx.fillText(`[ ${this.game.player.weapon.name} ]`, 10, 260); ctx.fillText(`ATK +${this.game.player.weapon.getDamage()}`, 10, 280);
+        ctx.fillStyle = CONFIG.colors.yellow; ctx.fillText(`CREDITS: ${this.game.player.credits}`, 10, 50);
+        ctx.fillStyle = CONFIG.colors.brightGreen; ctx.fillText(`INT: ${pStats.hp}/${pStats.maxHp}`, 10, 70); 
+        ctx.fillStyle = CONFIG.colors.brightRed; ctx.fillText(`ATK: ${pStats.atk}`, 10, 90);
+        ctx.fillStyle = CONFIG.colors.brightBlue; ctx.fillText(`BUF: ${pStats.buf}`, 10, 110); 
+        ctx.fillStyle = CONFIG.colors.brightYellow; ctx.fillText(`SPD: ${pStats.spd}`, 10, 130);
+        ctx.fillStyle = CONFIG.colors.textMain;
+
+        ctx.font = FONT(0, "bold"); ctx.fillText("-- EXECUTABLE --", 10, 200); ctx.font = FONT(-2);
+        ctx.fillText(`[ ${this.game.player.weapon.name} ]`, 10, 230); 
+        ctx.fillText(`ATK +${this.game.player.weapon.getDamage()}`, 10, 250);
 
         ctx.font = FONT(0, "bold"); ctx.fillText(`- SLOTS [${this.game.player.maxSlots}] -`, 10, 320);
         ctx.font = FONT(-4);
@@ -206,7 +214,7 @@ class UIManager {
             
             if (this.game.dragState.active && this.game.dragState.itemIndex === i) continue; 
             
-            ctx.fillStyle = this.game.player.items[i] ? CONFIG.colors.database : '#555';
+            ctx.fillStyle = this.game.player.items[i] ? CONFIG.colors.yellow : '#555';
             ctx.font = FONT(-3, "bold");
             let itemName = this.game.player.items[i] ? this.game.player.items[i].name : "EMPTY";
             let typeStr = this.game.player.items[i] ? (this.game.player.items[i].type === 'function' ? 'FUNC' : 'UTIL') : '----';
@@ -221,8 +229,8 @@ class UIManager {
         ctx.restore();
 
         ctx.fillStyle = CONFIG.colors.btnBg; ctx.fillRect(10, canvas.height - 60, width - 20, 40);
-        ctx.strokeStyle = CONFIG.colors.node; ctx.strokeRect(10, canvas.height - 60, width - 20, 40);
-        ctx.fillStyle = CONFIG.colors.node; ctx.font = FONT(0, "bold"); ctx.textAlign = "center";
+        ctx.strokeStyle = CONFIG.colors.brightGreen; ctx.strokeRect(10, canvas.height - 60, width - 20, 40);
+        ctx.fillStyle = CONFIG.colors.brightGreen; ctx.font = FONT(0, "bold"); ctx.textAlign = "center";
         ctx.fillText("MAIN MENU", width / 2, canvas.height - 35);
         ctx.textAlign = "left";
     }
@@ -231,7 +239,7 @@ class UIManager {
         ctx.fillStyle = CONFIG.colors.bg; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         if (this.game.state === 'MENU') {
-            ctx.fillStyle = CONFIG.colors.node; ctx.font = FONT(48, "bold"); ctx.textAlign = "center";
+            ctx.fillStyle = CONFIG.colors.brightGreen; ctx.font = FONT(48, "bold"); ctx.textAlign = "center";
             ctx.fillText("TRACE", canvas.width / 2, canvas.height / 2 - 120);
             
             if (this.game.gameInProgress) {
@@ -249,7 +257,7 @@ class UIManager {
             ctx.textAlign = "left"; 
         }
         else if (this.game.state === 'LOADOUT_SELECT') {
-            ctx.fillStyle = CONFIG.colors.node; ctx.font = FONT(48, "bold"); ctx.textAlign = "center";
+            ctx.fillStyle = CONFIG.colors.brightGreen; ctx.font = FONT(48, "bold"); ctx.textAlign = "center";
             ctx.fillText("TRACE", canvas.width / 2, canvas.height / 2 - 200);
 
             ctx.fillStyle = CONFIG.colors.textMain; ctx.font = FONT(4, "bold"); 
@@ -263,10 +271,10 @@ class UIManager {
                 const l = LOADOUT_LIBRARY[id];
                 ctx.fillStyle = CONFIG.colors.btnBg;
                 ctx.fillRect(canvas.width/2 - btnW/2, curY, btnW, btnH);
-                ctx.strokeStyle = CONFIG.colors.node;
+                ctx.strokeStyle = CONFIG.colors.brightGreen;
                 ctx.strokeRect(canvas.width/2 - btnW/2, curY, btnW, btnH);
 
-                ctx.fillStyle = CONFIG.colors.node; ctx.font = FONT(0, "bold");
+                ctx.fillStyle = CONFIG.colors.brightGreen; ctx.font = FONT(0, "bold");
                 ctx.textAlign = "center";
                 ctx.fillText(l.name, canvas.width/2, curY + 30);
                 
@@ -310,7 +318,7 @@ class UIManager {
             }
 
             if (this.game.inspectedItem) {
-                const layout = this.drawTerminalWindow(ctx, this.game.inspectedItem.name, 400, 300, CONFIG.colors.database);
+                const layout = this.drawTerminalWindow(ctx, this.game.inspectedItem.name, 400, 300, CONFIG.colors.yellow);
                 const cx = canvas.width / 2;
                 ctx.font = FONT(0); ctx.fillStyle = CONFIG.colors.textMain;
                 
@@ -319,14 +327,14 @@ class UIManager {
                     
                     ctx.textAlign = "center"; 
                     ctx.fillStyle = CONFIG.colors.btnBg; ctx.fillRect(cx - 60, layout.bodyY + 150, 120, 30);
-                    ctx.strokeStyle = CONFIG.colors.node; ctx.strokeRect(cx - 60, layout.bodyY + 150, 120, 30);
-                    ctx.fillStyle = CONFIG.colors.node; ctx.font = FONT(0, "bold");
+                    ctx.strokeStyle = CONFIG.colors.brightGreen; ctx.strokeRect(cx - 60, layout.bodyY + 150, 120, 30);
+                    ctx.fillStyle = CONFIG.colors.brightGreen; ctx.font = FONT(0, "bold");
                     ctx.fillText("EXECUTE", cx, layout.bodyY + 170);
                     this.game.inspectBtnRect = { x: cx - 60, y: layout.bodyY + 150, w: 120, h: 30 };
                     ctx.textAlign = "left";
                 } else {
                     wrapText(ctx, this.game.inspectedItem.desc, layout.x + 20, layout.bodyY + 30, layout.w - 40, 20);
-                    ctx.fillStyle = CONFIG.colors.node;
+                    ctx.fillStyle = CONFIG.colors.brightGreen;
                     wrapText(ctx, this.game.inspectedItem.getTooltip(), layout.x + 20, layout.bodyY + 80, layout.w - 40, 20);
                     this.game.inspectBtnRect = null;
                 }
@@ -350,7 +358,7 @@ class UIManager {
 
             if (this.game.turnState === 'network_select') {
                 const pW = 500; const pH = 300;
-                const layout = this.drawTerminalWindow(ctx, "SELECT NEXT NETWORK", pW, pH, CONFIG.colors.node, 0, false);
+                const layout = this.drawTerminalWindow(ctx, "SELECT NEXT NETWORK", pW, pH, CONFIG.colors.brightGreen, 0, false);
                 const cx = canvas.width / 2;
 
                 if (!this.game.networkChoices) {
@@ -362,7 +370,7 @@ class UIManager {
                 const btnY1 = layout.bodyY + 50; const btnY2 = layout.bodyY + 125;
 
                 ctx.textAlign = "center"; ctx.font = FONT(8, "bold");
-                ctx.strokeStyle = NETWORK_LIBRARY[this.game.networkChoices[0]].color || CONFIG.colors.node; 
+                ctx.strokeStyle = NETWORK_LIBRARY[this.game.networkChoices[0]].color || CONFIG.colors.brightGreen; 
                 ctx.strokeRect(cx - btnW/2, btnY1, btnW, btnH);
                 ctx.fillStyle = ctx.strokeStyle; 
                 ctx.fillText(NETWORK_LIBRARY[this.game.networkChoices[0]].name, cx, btnY1 + 35);
@@ -377,7 +385,7 @@ class UIManager {
             if (this.game.state === 'TERMINAL') {
                 const w = Math.min(CONFIG.ui.panels.terminalMaxW, canvas.width - 100);
                 const h = Math.min(CONFIG.ui.panels.terminalMaxH, canvas.height - 100);
-                const layout = this.drawTerminalWindow(ctx, `DATABASE://${this.game.terminalNode.id}`, w, h, CONFIG.colors.node, 240);
+                const layout = this.drawTerminalWindow(ctx, `DATABASE://${this.game.terminalNode.id}`, w, h, CONFIG.colors.brightGreen, 240);
 
                 if (this.game.terminalFiles.length === 0) {
                     ctx.fillStyle = CONFIG.colors.textMuted;
@@ -388,7 +396,7 @@ class UIManager {
                     this.game.terminalFiles.forEach((f, i) => {
                         if (i === this.game.terminalSelectedFile) {
                             ctx.fillStyle = CONFIG.colors.btnBg; ctx.fillRect(layout.x, layout.bodyY + i*40, layout.sidebarW, 40);
-                            ctx.fillStyle = CONFIG.colors.node;
+                            ctx.fillStyle = CONFIG.colors.brightGreen;
                         } else {
                             ctx.fillStyle = '#aaa';
                         }
@@ -413,8 +421,8 @@ class UIManager {
                             const btnY = layout.y + layout.h - btnH - 20;
 
                             ctx.fillStyle = CONFIG.colors.btnBg; ctx.fillRect(btnX, btnY, btnW, btnH);
-                            ctx.strokeStyle = CONFIG.colors.node; ctx.strokeRect(btnX, btnY, btnW, btnH);
-                            ctx.fillStyle = CONFIG.colors.node; ctx.textAlign = 'center'; ctx.font = FONT(0, "bold");
+                            ctx.strokeStyle = CONFIG.colors.brightGreen; ctx.strokeRect(btnX, btnY, btnW, btnH);
+                            ctx.fillStyle = CONFIG.colors.brightGreen; ctx.textAlign = 'center'; ctx.font = FONT(0, "bold");
                             ctx.fillText('> DOWNLOAD <', btnX + btnW/2, btnY + 24);
                             ctx.textAlign = 'left';
                         }
@@ -456,10 +464,10 @@ class UIManager {
 
             if (this.game.state === 'REWARD') {
                 const pW = CONFIG.ui.panels.rewardW; const pH = CONFIG.ui.panels.rewardH;
-                const layout = this.drawTerminalWindow(ctx, "NEW DATA DETECTED", pW, pH, CONFIG.colors.node);
+                const layout = this.drawTerminalWindow(ctx, "NEW DATA DETECTED", pW, pH, CONFIG.colors.brightGreen);
 
                 const cx = canvas.width / 2; 
-                ctx.fillStyle = CONFIG.colors.database; ctx.textAlign = "center"; ctx.font = FONT(4, "bold");
+                ctx.fillStyle = CONFIG.colors.yellow; ctx.textAlign = "center"; ctx.font = FONT(4, "bold");
                 ctx.fillText(this.game.rewardItem.name, cx, layout.bodyY + 30);
 
                 ctx.font = FONT(-2); ctx.fillStyle = CONFIG.colors.textMuted;
@@ -483,7 +491,7 @@ class UIManager {
                     
                     ctx.strokeStyle = CONFIG.colors.textMain; ctx.strokeRect(bx, by, slotW, slotH);
                     
-                    ctx.fillStyle = this.game.player.items[i] ? CONFIG.colors.database : CONFIG.colors.textDisabled;
+                    ctx.fillStyle = this.game.player.items[i] ? CONFIG.colors.yellow : CONFIG.colors.textDisabled;
                     ctx.font = FONT(-3, "bold");
                     let itemName = this.game.player.items[i] ? this.game.player.items[i].name : "EMPTY";
                     let typeStr = this.game.player.items[i] ? (this.game.player.items[i].type === 'function' ? 'FUNC' : 'UTIL') : '----';
@@ -505,12 +513,12 @@ class UIManager {
             // Combat victory terminal
             if (this.game.state === 'COMBAT_VICTORY') {
                 const pW = CONFIG.ui.panels.victoryW; const pH = CONFIG.ui.panels.victoryH;
-                const layout = this.drawTerminalWindow(ctx, `${this.game.combatResult.enemyName} TERMINATED`, pW, pH, CONFIG.colors.node);
+                const layout = this.drawTerminalWindow(ctx, `${this.game.combatResult.enemyName} TERMINATED`, pW, pH, CONFIG.colors.brightGreen);
 
                 const cx = canvas.width / 2;
                 ctx.font = FONT(2); ctx.textAlign = "center";
                 if (this.game.combatResult.credits > 0) {
-                    ctx.fillStyle = CONFIG.colors.database;
+                    ctx.fillStyle = CONFIG.colors.yellow;
                     ctx.fillText(`+ ${this.game.combatResult.credits} CREDITS RECOVERED`, cx, layout.bodyY + 40);
                 } else {
                     ctx.fillStyle = CONFIG.colors.textDisabled;
@@ -520,7 +528,7 @@ class UIManager {
                 if (this.game.combatResult.item) {
                     ctx.fillStyle = CONFIG.colors.textMain; ctx.font = FONT(0, "bold");
                     ctx.fillText("ITEM DROP DETECTED:", cx, layout.bodyY + 90);
-                    ctx.fillStyle = CONFIG.colors.database; ctx.font = FONT(0);
+                    ctx.fillStyle = CONFIG.colors.yellow; ctx.font = FONT(0);
                     ctx.fillText(this.game.combatResult.item.name, cx, layout.bodyY + 120);
 
                     ctx.textAlign = "left"; ctx.font = FONT(-2);
@@ -537,7 +545,7 @@ class UIManager {
                         ctx.fillStyle = this.game.player.items[i] ? CONFIG.colors.btnBg : CONFIG.colors.uiBg;
                         ctx.fillRect(bx, by, slotW, slotH);
                         ctx.strokeStyle = CONFIG.colors.textMain; ctx.strokeRect(bx, by, slotW, slotH);
-                        ctx.fillStyle = this.game.player.items[i] ? CONFIG.colors.database : CONFIG.colors.textDisabled;
+                        ctx.fillStyle = this.game.player.items[i] ? CONFIG.colors.yellow : CONFIG.colors.textDisabled;
                         ctx.font = FONT(-3, "bold");
                         let itemName = this.game.player.items[i] ? this.game.player.items[i].name : "EMPTY";
                         let typeStr = this.game.player.items[i] ? (this.game.player.items[i].type === 'function' ? 'FUNC' : 'UTIL') : '----';

@@ -4,7 +4,7 @@
 
 `TRACE` is a browser-based roguelike autobattler. Navigate through compromised digital networks, scavenge databases for new programs, manage your memory slots, and outrun rogue system entities using automated, stat-driven combat.
 
-* **Current Version:** `v0.0.1-experimental` 
+* **Current Version:** `v0.0.2-experimental` 
 * **Status:** `Experimental` - This game is in early development. Mechanics, features, and balancing can and will change.
 * **Play now!:** [via GitHub Pages](https://daniel-meek.github.io/TRACE)
 
@@ -23,8 +23,8 @@
 * **Network Exploration:** Traverse procedurally generated subnets. Discover Routers, Switches, Databases, Dark Net Access Nodes, and Gateways to dive deeper into the network.
 * **Automated Combat:** Engage viruses and outrun System Hunters in turn-based, automated combat. Your speed determines the turn order, and equipped functions trigger automatically during the attack cycle.
 * **Memory Management:** Drag and drop Functions and Utilities into limited memory slots. Expand your slots over time and manage a balance between passive buffs and active utility.
-* **Data Loadouts:** Start runs using predefined system loadouts, altering your base health, speed, initial weapon, and starting credits.
 * **Functions & Utilities:** Equip **Functions** (e.g., *Momentum_Script*, *Firewall_Patch*) to passively alter your combat stats and trigger special abilities during battles. Execute **Utilities** (e.g., *File_Repair*, *Ping_Sweep*) outside of combat to restore integrity or reveal hidden network nodes.
+* **Data Loadouts:** Start runs using predefined system loadouts, altering your base health, speed, initial weapon, and starting credits.
 * **Trace Levels:** Every move increases your system tracability. Reach maximum trace, and aggressive System Hunters will spawn and pursue you across the network.
 
 ## Local Setup
@@ -41,6 +41,10 @@ Since `TRACE` is built entirely with standard HTML5, CSS3, and JavaScript (Canva
    Simply open the index.html file in any modern web browser.
 
 ## Changelog
+
+### v0.0.2-experimental - Update 2026.05.15
+- Tweeked UI elements
+- Added audio support
 
 ### v0.0.1-experimental - Initial Release
 - Initial commit and project structure.

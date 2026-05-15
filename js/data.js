@@ -2,7 +2,7 @@
 
 const CONFIG = {
     DEV_MODE: true, // true to enable all dev featres
-    baseFontSize: 16, 
+    baseFontSize: 18, 
     mapWidth: 3000,
     mapHeight: 3000,
     mapPadding: 150,
@@ -10,6 +10,25 @@ const CONFIG = {
     enemySpeed: 0.08, 
     nodeRadius: 12,
     colors: {
+        // Campbell terminal colours
+        black : "#0C0C0C",
+        brightBlack : "#767676",
+        blue : "#0037DA",
+        brightBlue : "#3B78FF",
+        cyan : "#3A96DD",
+        brightCyan : "#61D6D6",
+        green : "#13A10E",
+        brightGreen : "#16C60C",
+        purple : "#881798",
+        brightPurple : "#B4009E",
+        red : "#C50F1F",
+        brightRed : "#E74856",
+        white : "#CCCCCC",
+        brightWhite : "#F2F2F2",
+        yellow : "#C19C00",
+        brightYellow : "#F9F1A5",
+
+        // Game Spesific colours
         bg: '#050a05',
         uiBg: '#0a140a',
         node: '#00ff30',
@@ -27,11 +46,13 @@ const CONFIG = {
         btnDisabled: '#1a1a1a',
         textMain: '#ffffff',
         textMuted: '#cccccc',
-        textDisabled: '#888888',
-        overlay: 'rgba(0, 0, 0, 0.85)'
+        textDisabled: '#999999',
+        overlay: 'rgba(0, 0, 0, 0.85)',
+
     },
     ui: {
         topBarHeight: 60,
+        leftBarWidth: 400,
         slotH: 48,
         btnH: 34,
         packetSpeed: 25,
@@ -51,8 +72,8 @@ const CONFIG = {
         visionBonusSwitch: 2,
         maxGenAttempts: 100,
         combatSpeeds: {
-            play: 180,          // 120 = 2 sec 
-            fast: 20            // 20 = 0.333... sec
+            play: 180, // 120 = 2 sec 
+            fast: 20 // 20 = 0.333... sec
         }
     }
 };
@@ -278,6 +299,10 @@ const NETWORK_LIBRARY = {
             creditMax: 40               // Max credit amount
         },  
         enemyTypes: ['virus_v0.1'],     // List of enemies that can spawn
-        bossType: ['boss_anomaly']      // List of bosses that can spawn at the end
+        bossType: ['boss_anomaly']      // List of bosses that can spawn on the last subnet
     }
+};
+
+const ICON_LIBRARY = {
+    playerIcon: 0
 };

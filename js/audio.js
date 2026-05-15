@@ -21,4 +21,16 @@ class AudioManager {
         oscillator.stop(this.audioCtx.currentTime + duration);
     }
 
+    playPlayerMove() {
+        const randomInt = Math.floor(Math.random() * 3);
+
+        if (randomInt === 0) {
+            this.playCustomNote(65.4, 0.1, 'square', 0.0001)
+        } else if (randomInt === 1) {
+            this.playCustomNote(130.8, 0.1, 'square', 0.0001)
+        } else {
+            this.playCustomNote(261.6, 0.1, 'square', 0.0001)
+        }
+    }
+
 };

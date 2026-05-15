@@ -383,7 +383,7 @@ class InputManager {
             this.game.network.nodes.forEach(node => {
                 if (Math.hypot(node.x - worldPos.x, node.y - worldPos.y) < CONFIG.nodeRadius * 2) {
                     if (this.game.player.currentNode.connections.includes(node)) {
-                        this.audioManager.playCustomNote(300, 2, 'sawtooth', 0.001);    // Player node
+                        // this.audioManager.playPlayerMove(); // Player node
 
                         this.game.player.move(node); 
                         validMoveMade = true;
